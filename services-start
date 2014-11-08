@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+cru a update-mac-filter "*/10 * * * * /jffs/scripts/update-mac-filter.sh"
