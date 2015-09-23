@@ -14,8 +14,7 @@ ap_wl_maclist_x=$(nvram get wl0_maclist_x)
 dhcpd_wl_maclist_x=""
 
 # Fetch MAC addresses from DHCP server configuration
-# TODO: Ignore lines with comments?
-for tuple in $(ssh -y -y -i $identity $username@$hostname "egrep 'host|ethernet' $dhcpd_conf | sed 'N;s/\n/ /' | awk '{print \$6\$2}' | sort")
+for tuple in $(ssh -y -y -i $identity $username@$hostname "egrep 'host|ethernet' $dhcpd_conf | egrep -v '^[ ]*#' | sed 'N;s/\n/ /' | awk '{print \$6\$2}' | sort")
 do
   client=$(echo $tuple | awk -F\; '{print "<"toupper($1)">"$2}')
   count=$(echo $ap_wl_maclist_x | grep -c $client)
